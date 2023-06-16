@@ -24,14 +24,19 @@
 function [echo_int_all]=sim_cpmg_ideal_probe_img(params)
 
 % Read in parameters
-NE=params.NE; TE=params.TE; Tgrad=params.Tgrad;
-rho=params.rho; T1map=params.T1map; T2map=params.T2map;
-pxz=params.pxz; FOV=params.FOV;
+NE=params.NE;
+TE=params.TE;
+Tgrad=params.Tgrad;
+rho=params.rho;
+T1map=params.T1map;
+T2map=params.T2map;
+pxz=params.pxz;
+FOV=params.FOV;
 
 % Define pulse system parameters
 [sp, pp]=set_params_ideal;
-T_90=pp.T_90; % Nominal T_90 pulse length
-T_180=2*T_90;
+T_90=pp.T_90; % Nominal T_90 pulse length. %%% set to the 90 degrees flip
+T_180=2*T_90; %%% set to 180 degrees flip
 
 % Check pulse sequence timing
 if pp.tacq>(TE-T_180)
@@ -39,8 +44,8 @@ if pp.tacq>(TE-T_180)
 end
 
 % Set size of simulation domain
-sp.ny=400; sp.maxoffs=5; % y-axis
-siz=size(rho);
+sp.ny=1; sp.maxoffs=5; %%% y-axis: ny is npoints in y. maxoffs is max offset in magnetic field (due to parasitic gradient)
+siz=size(rho); %%% spin density map from the sample
 sp.nx=siz(1); sp.nz=siz(2); % (x,z) plane
 sp.rho=rho; sp.T1map=T1map; sp.T2map=T2map; % Set sample properties
 
@@ -58,9 +63,14 @@ if NE>NE_max
 end
 
 % Set plotting parameters
-sp.plt_tx = 0; sp.plt_rx = 0; sp.plt_sequence = 0; % Plots on/off
-sp.plt_axis = 0; sp.plt_mn = 0; sp.plt_echo = 0;
-sp.plt_output = 1; sp.plt_fields = 0;
+sp.plt_tx = 1; %% unused
+sp.plt_rx = 1; %% unused
+sp.plt_sequence = 0; % plot pulse sequences
+sp.plt_axis = 1; %% unused
+sp.plt_mn = 1; %% unused
+sp.plt_echo = 1; %% unused
+sp.plt_output = 1; % plot output image
+sp.plt_fields = 1; % plot spin density input map, gradient strength
 
 % Create fields and sample parameters
 sp=create_fields_single_sided(sp);
@@ -97,14 +107,20 @@ pp_in.tp=pi; pp_in.phi=pi/2;
 Rtot{4}=calc_rotation_matrix(sp,pp_in);
 
 % Excitation pulses 1 and 2, including timing correction
-texc=[pi/2 -1]; aexc=[1 0];
-pexc1=[1 0]; pexc2=[2 0];  % pexc is pulse type
-acq_exc=[0 0]; gexc=[0 0]; % gexc is the gradient
+texc=   [pi/2   -1];
+aexc=   [1      0];
+pexc1=  [1      0];
+pexc2=  [2      0];  % pexc is pulse type
+acq_exc=[0      0];
+gexc=   [0      0]; % gexc is the gradient
 
 % Encoding periods 1 and 2
-tenc=[(pi/2)*Tgrad/T_90 pi (pi/2)*Tgrad/T_90]; aenc=[0 1 0];
-penc1=[0 3 0]; penc2=[0 4 0];
-acq_enc=[0 0 0]; genc=[1 0 0]; % Note: Gradient is enabled
+tenc=[  (pi/2)*Tgrad/T_90   pi  (pi/2)*Tgrad/T_90];
+aenc=[  0                   1   0];
+penc1=[ 0                   3   0]; % 3 on pi-pulse means pulse x
+penc2=[ 0                   4   0]; % 4 on pi-pulse means pulse y
+acq_enc=[0                  0   0];
+genc=[1                     0   0]; % Note: Gradient is enabled
 
 % Refocusing cycles
 nref=3; % Segments in refocusing cycle
@@ -113,8 +129,8 @@ aref=tref; acq_ref=tref; gref=tref;
 tfp=(pi/2)*(TE-pp.T_180)/(2*T_90); % Free precession period (normalized)
 for i=1:NE
     tref((i-1)*nref+1:i*nref)=[tfp pi tfp];
-    pref1((i-1)*nref+1:i*nref)=[0 3 0]; % Pulse type
-    pref2((i-1)*nref+1:i*nref)=[0 4 0]; % Pulse type
+    pref1((i-1)*nref+1:i*nref)=[0 3 0]; % 3 means pulse-x on pi pulse
+    pref2((i-1)*nref+1:i*nref)=[0 4 0]; % 4 means pulse-y on pi pulse
     aref((i-1)*nref+1:i*nref)=[0 1 0];
     acq_ref((i-1)*nref+1:i*nref)=[0 0 1];
     gref((i-1)*nref+1:i*nref)=[0 0 0]; % Gradient
@@ -122,8 +138,10 @@ end
 
 % Create complete pulse sequences
 % Fixed terms
-pp.tp=[texc tenc tref]; pp.amp=[aexc aenc aref];
-pp.acq=[acq_exc acq_enc acq_ref]; pp.grad=[gexc genc gref];
+pp.tp=[texc tenc tref];
+pp.amp=[aexc aenc aref];
+pp.acq=[acq_exc acq_enc acq_ref];
+pp.grad=[gexc genc gref];
 pp.Rtot=Rtot;
 
 % Variable terms
@@ -171,7 +189,7 @@ parfor i=1:px % Parallelize for speed
 end
 
 if sp.plt_output % Plot selected outputs
-    eplt=2; % Echo number to plot
+    eplt=1; % Echo number to plot
     echo_int_eplt=echo_int_all(:,:,eplt); % Select data for chosen echo
     
     figure; % Plot k-space of selected echo

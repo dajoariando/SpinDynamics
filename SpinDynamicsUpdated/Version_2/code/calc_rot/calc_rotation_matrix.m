@@ -19,16 +19,16 @@ for j=1:num_pulses
     if j==1
         Rtot=mat;
     else
-        tmp=Rtot; % Estimate Rtot = mat * Rtot
-        Rtot.R_00=mat.R_00.*tmp.R_00+mat.R_0m.*tmp.R_m0+mat.R_0p.*tmp.R_p0;
-        Rtot.R_0m=mat.R_00.*tmp.R_0m+mat.R_0m.*tmp.R_mm+mat.R_0p.*tmp.R_pm;
-        Rtot.R_0p=mat.R_00.*tmp.R_0p+mat.R_0m.*tmp.R_mp+mat.R_0p.*tmp.R_pp;
-        Rtot.R_m0=mat.R_m0.*tmp.R_00+mat.R_mm.*tmp.R_m0+mat.R_mp.*tmp.R_p0;
-        Rtot.R_mm=mat.R_m0.*tmp.R_0m+mat.R_mm.*tmp.R_mm+mat.R_mp.*tmp.R_pm;
-        Rtot.R_mp=mat.R_m0.*tmp.R_0p+mat.R_mm.*tmp.R_mp+mat.R_mp.*tmp.R_pp;
-        Rtot.R_p0=mat.R_p0.*tmp.R_00+mat.R_pm.*tmp.R_m0+mat.R_pp.*tmp.R_p0;
-        Rtot.R_pm=mat.R_p0.*tmp.R_0m+mat.R_pm.*tmp.R_mm+mat.R_pp.*tmp.R_pm;
-        Rtot.R_pp=mat.R_p0.*tmp.R_0p+mat.R_pm.*tmp.R_mp+mat.R_pp.*tmp.R_pp;
+        tmp = Rtot; % Estimate Rtot = mat * Rtot
+        Rtot.R_00= mat.R_00.*tmp.R_00 + mat.R_0m.*tmp.R_m0 + mat.R_0p.*tmp.R_p0;
+        Rtot.R_0m= mat.R_00.*tmp.R_0m + mat.R_0m.*tmp.R_mm + mat.R_0p.*tmp.R_pm;
+        Rtot.R_0p= mat.R_00.*tmp.R_0p + mat.R_0m.*tmp.R_mp + mat.R_0p.*tmp.R_pp;
+        Rtot.R_m0= mat.R_m0.*tmp.R_00 + mat.R_mm.*tmp.R_m0 + mat.R_mp.*tmp.R_p0;
+        Rtot.R_mm= mat.R_m0.*tmp.R_0m + mat.R_mm.*tmp.R_mm + mat.R_mp.*tmp.R_pm;
+        Rtot.R_mp= mat.R_m0.*tmp.R_0p + mat.R_mm.*tmp.R_mp + mat.R_mp.*tmp.R_pp;
+        Rtot.R_p0= mat.R_p0.*tmp.R_00 + mat.R_pm.*tmp.R_m0 + mat.R_pp.*tmp.R_p0;
+        Rtot.R_pm= mat.R_p0.*tmp.R_0m + mat.R_pm.*tmp.R_mm + mat.R_pp.*tmp.R_pm;
+        Rtot.R_pp= mat.R_p0.*tmp.R_0p + mat.R_pm.*tmp.R_mp + mat.R_pp.*tmp.R_pp;
     end
 end
 

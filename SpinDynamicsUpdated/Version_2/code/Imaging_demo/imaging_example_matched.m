@@ -11,8 +11,8 @@ params.NE=6; % Number of echoes
 params.TE=0.2e-3; % Echo period (sec)
 params.Tgrad=0.5e-3; % Gradient length (sec)
 pixels = 16;
-FOV = 40;
-flower = imread('flower.png');
+FOV = 20;
+flower = imread('../Images/flower.png');
 flowerResize = imresize(flower,[pixels pixels]);
 IM = rgb2gray(flowerResize);
 

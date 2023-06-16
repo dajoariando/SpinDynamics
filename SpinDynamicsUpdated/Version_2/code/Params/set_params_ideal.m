@@ -9,7 +9,7 @@ function [sp, pp] = set_params_ideal
 % --------------------------------------------
 sp.k=1.381e-23; % J/K
 sp.T=300; % Sample temperature
-sp.gamma = 2*pi*42.577e6;
+sp.gamma = 2*pi*42.577e6; % gyromagnetic ratio
 sp.grad = 1;
 
 %Sample parameters
@@ -26,7 +26,7 @@ sp.m0=1; % Initial magnetization
 sp.mth=1; % Asymptotic / thermal magnetization
 %sp.numpts=2000;
 sp.numpts=1e4;
-sp.maxoffs=10;
+sp.maxoffs=10; %%% offset in y-axis magnetic field 
 sp.del_w=linspace(-sp.maxoffs,sp.maxoffs,sp.numpts); % Static Gradient
 
 % Matched filter type
@@ -44,7 +44,7 @@ sp.plt_echo = 0;
 % Pulse sequence parameters
 % --------------------------------------------
 pp.N=32; % quantization step = N x input RF frequency
-pp.T_90=25e-6;
+pp.T_90=20e-6; %25e-6; %%% rectangular pulse length that causes pi flip angle
 pp.T_180=2*pp.T_90; % Rectangular T_90 and T_180
 pp.psi=0; % Absolute RF phase at t=0
 %pp.preDelay = 20e-6;
