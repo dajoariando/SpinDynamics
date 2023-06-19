@@ -1,6 +1,6 @@
 % Imaging example
 % ----------------------------------------------
-%parpool('local',32)
+% parpool('local',64)
 % ----------------------------------------------
 % Define parameters
 % ----------------------------------------------
@@ -11,7 +11,7 @@ addpath(genpath('../.'));
 % Pulse sequence
 % ----------------------------------------------
 params.NE=6; % Number of echoes
-params.TE=0.2e-3; % Echo period (sec)
+params.TE=0.1e-3; % Echo period (sec)
 params.Tgrad=0.5e-3; % Gradient length (sec)
 pixels = 64;
 FOV = 64;
@@ -28,15 +28,25 @@ else % create circle sensitivity map
     
     % or use concentric circle map
     a = create_circle (pixels, pixels, pixels/2*0.95);
-    b = create_circle (pixels, pixels, pixels/2*0.85);
-    c = create_circle (pixels, pixels, pixels/2*0.75);
-    d = create_circle (pixels, pixels, pixels/2*0.65);
-    e = create_circle (pixels, pixels, pixels/2*0.55);
-    f = create_circle (pixels, pixels, pixels/2*0.45);
-    g = create_circle (pixels, pixels, pixels/2*0.35);
-    h = create_circle (pixels, pixels, pixels/2*0.25);
-    i = create_circle (pixels, pixels, pixels/2*0.15);
-    IM = a-b+c-d+e-f+g-h+i;
+    b = create_circle (pixels, pixels, pixels/2*0.90);
+    c = create_circle (pixels, pixels, pixels/2*0.85);
+    d = create_circle (pixels, pixels, pixels/2*0.80);
+    e = create_circle (pixels, pixels, pixels/2*0.75);
+    f = create_circle (pixels, pixels, pixels/2*0.70);
+    g = create_circle (pixels, pixels, pixels/2*0.65);
+    h = create_circle (pixels, pixels, pixels/2*0.60);
+    i = create_circle (pixels, pixels, pixels/2*0.55);
+    j = create_circle (pixels, pixels, pixels/2*0.50);
+    k = create_circle (pixels, pixels, pixels/2*0.45);
+    l = create_circle (pixels, pixels, pixels/2*0.40);
+    m = create_circle (pixels, pixels, pixels/2*0.35);
+    n = create_circle (pixels, pixels, pixels/2*0.30);
+    o = create_circle (pixels, pixels, pixels/2*0.25);
+    p = create_circle (pixels, pixels, pixels/2*0.20);
+    q = create_circle (pixels, pixels, pixels/2*0.15);
+	r = create_circle (pixels, pixels, pixels/2*0.10);
+    s = create_circle (pixels, pixels, pixels/2*0.05);
+    IM = a-b+c-d+e-f+g-h+i-j+k-l+m-n+o-p+q-r+s;
 end
 
 

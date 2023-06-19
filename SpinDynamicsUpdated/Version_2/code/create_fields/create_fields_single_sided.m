@@ -5,7 +5,7 @@
 function [sp]=create_fields_single_sided(sp)
 % settings
 load_ext_graddata = 1; % LOAD EXTERNAL GRADIENT PLANE DATA
-force_flat_tx_plane = 0; % FORCE THE TX PLANE TO BE FLAT, IGNORE load_ext_txdata below
+force_flat_tx_plane = 1; % FORCE THE TX PLANE TO BE FLAT, IGNORE load_ext_txdata below
 load_ext_txdata = 1; % LOAD EXTERNAL TRANSMIT PLANE DATA
 
 

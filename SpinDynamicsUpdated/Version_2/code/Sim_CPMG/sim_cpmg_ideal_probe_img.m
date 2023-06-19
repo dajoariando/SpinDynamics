@@ -183,7 +183,7 @@ parfor i=1:px % Parallelize for speed
         echo_rx_xy=real(echo_rx_x)+1i*imag(echo_rx_y); % Raw echo shapes
         echo_int_all(i,j,:)=trapz(tvect,echo_rx_xy)'; % Estimate echo integrals, size: [NE,1]
         
-        disp(['Running: ' num2str(round(100*j/pz)) '% of row ' num2str(i)])
+        % disp(['Running: ' num2str(round(100*j/pz)) '% of row ' num2str(i)])
     end
     disp(['------Row ' num2str(i) ' (of ' num2str(px) ') completed.------'])
 end
